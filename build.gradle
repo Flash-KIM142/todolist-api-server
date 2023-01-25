@@ -18,6 +18,10 @@ dependencies {
 	implementation 'org.mariadb.jdbc:mariadb-java-client'
 	implementation 'org.projectlombok:lombok'
 
+	implementation('org.slf4j:jcl-over-slf4j')
+	implementation('ch.qos.logback:logback-classic')
+	annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 //	runtimeOnly 'com.mysql:mysql-connector-j'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'

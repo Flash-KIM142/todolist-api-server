@@ -1,10 +1,12 @@
 package com.todolist;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class TodoService {
 
@@ -12,8 +14,9 @@ public class TodoService {
     private TodoRepository todoRepository;
 
     //CREATE
-    public TodoEntity createTodo(TodoEntity todoEntity){
-        return todoRepository.save(todoEntity);
+    public TodoEntity createTodo(TodoRequestDto todoRequestDto){
+        log.debug("dto -> dao");
+        return todoRepository.save(todoRequestDto.toEntity());
     }
 
     //READ
