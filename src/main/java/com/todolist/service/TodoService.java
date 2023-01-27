@@ -1,9 +1,14 @@
-package com.todolist;
+package com.todolist.service;
 
+import com.todolist.model.entity.TodoEntity;
+import com.todolist.repository.TodoRepository;
+import com.todolist.model.request.TodoRequestDto;
+import com.todolist.model.response.TodoResponseVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -20,8 +25,17 @@ public class TodoService {
     }
 
     //READ
-    public List<TodoEntity> getTodos(){
-        return todoRepository.findAll();
+    public List<TodoResponseVo> getTodos(){
+
+        List<TodoEntity> entityList = todoRepository.findAll();
+
+        List<TodoResponseVo> dtoList = new ArrayList<>();
+
+        for(TodoEntity e: entityList){
+            dtoList.add(TodoResponseVo.of(e));
+        }
+
+        return dtoList;
     }
 
     //DELETE

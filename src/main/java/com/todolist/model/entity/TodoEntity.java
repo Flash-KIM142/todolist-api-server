@@ -1,7 +1,6 @@
-package com.todolist;
+package com.todolist.model.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +12,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class TodoEntity {
+public class TodoEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +28,4 @@ public class TodoEntity {
         this.isDone = isDone;
     }
 
-//    private LocalDate createdAt;  지금은 가장 필수적인 필드들을 작성하는 데만 집중. 이 필드는 후에 다시 작성.
 }
