@@ -12,6 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class TodoRequestDto {
+
     private String content;
     @JsonProperty("isDone")
     private Boolean isDone;

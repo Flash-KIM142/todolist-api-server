@@ -1,10 +1,8 @@
 package com.todolist.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.todolist.model.response.TodoResponseVo;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
 
 @Getter
@@ -14,20 +12,20 @@ public class TodoListResponseDto {
     private int status;
     private int length;
     private String message;
-
     @JsonProperty("data")
     private Object object;
 
-    public TodoListResponseDto(int status, String message, List<TodoResponseVo> todoResponseVoList){
+    public TodoListResponseDto(int status, String message, List<TodoResponseDto> todoResponseDtoList){
+
         int length = 0;
 
-        for(TodoResponseVo o: todoResponseVoList){
+        for(TodoResponseDto o: todoResponseDtoList){
             length++;
         }
 
         this.status = status;
         this.message = message;
         this.length = length;
-        this.object = todoResponseVoList;
+        this.object = todoResponseDtoList;
     }
 }

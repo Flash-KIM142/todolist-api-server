@@ -1,7 +1,6 @@
 package com.todolist.model.entity;
 
 import javax.persistence.*;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +16,7 @@ public class TodoEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String content;
-
     private Boolean isDone;
 
     @Builder
@@ -28,4 +25,8 @@ public class TodoEntity extends BaseTimeEntity {
         this.isDone = isDone;
     }
 
+    public void update(String content, boolean isDone){
+        this.content = content;
+        this.isDone = isDone;
+    }
 }
