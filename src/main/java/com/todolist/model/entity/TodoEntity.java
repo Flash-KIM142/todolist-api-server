@@ -1,16 +1,16 @@
 package com.todolist.model.entity;
 
 import javax.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Table(name="todos")
 @Getter
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
 public class TodoEntity extends BaseTimeEntity {
 
     @Id
