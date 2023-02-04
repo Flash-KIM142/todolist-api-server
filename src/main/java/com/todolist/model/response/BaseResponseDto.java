@@ -13,5 +13,5 @@ public class BaseResponseDto {
     private int status;
     private String message;
     @JsonProperty("data")
-    private Object object; // client 로부터 받게될 data
+    private Object object;
 }

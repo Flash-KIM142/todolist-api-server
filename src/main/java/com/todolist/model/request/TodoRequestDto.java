@@ -5,12 +5,10 @@ import com.todolist.model.entity.TodoEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class TodoRequestDto {
 
     private String content;
