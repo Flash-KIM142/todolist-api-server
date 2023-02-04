@@ -11,7 +11,7 @@ public class TodoResponseDto {
 
     private final Long id;
     private final String content;
-    private final boolean isDone;
+    private final Boolean isDone;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
