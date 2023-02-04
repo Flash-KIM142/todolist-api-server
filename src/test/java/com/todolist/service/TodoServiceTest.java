@@ -42,12 +42,12 @@ class TodoServiceTest {
     }
 
     @Test
-    @DisplayName("new Todo 생성 & 저장")
+    @DisplayName("Todo 생성 & 저장")
     void testCreateTodo() {
 
         //given
         TodoEntity todoEntity = todoRequestDto.toEntity();
-        given(todoRepository.save(any())).willReturn(todoEntity);
+        given(todoRepository.save(any(TodoEntity.class))).willReturn(todoEntity);
 
         //when
         Long createId = todoService.createTodo(todoRequestDto);
@@ -69,16 +69,17 @@ class TodoServiceTest {
         List<TodoResponseDto> findAll = todoService.getTodos();
 
         //then
+        assertThat(findAll).isNotNull();
         assertThat(findAll.size()).isEqualTo(2);
     }
 
     @Test
-    @DisplayName("Todo 하나 검색")
+    @DisplayName("Todo 하나 불러오기")
     void testGetTodo() {
 
         //given
         TodoEntity todoEntity = todoRequestDto.toEntity();
-        given(todoRepository.findById(any())).willReturn(Optional.of(todoEntity));
+        given(todoRepository.findById(anyLong())).willReturn(Optional.of(todoEntity));
 
         //when
         TodoResponseDto findTodoDto = todoService.getTodo(1L);
