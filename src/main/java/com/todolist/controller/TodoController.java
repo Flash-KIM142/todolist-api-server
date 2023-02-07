@@ -2,7 +2,6 @@ package com.todolist.controller;
 
 import com.todolist.model.request.TodoUpdateRequestDto;
 import com.todolist.model.response.BaseResponseDto;
-import com.todolist.model.response.TodoListResponseDto;
 import com.todolist.model.request.TodoRequestDto;
 import com.todolist.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -15,20 +14,31 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(value="/todos")
+@RequestMapping("/todos")
 public class TodoController {
 
     private final TodoService todoService;
 
     //READ
     @GetMapping
-    public ResponseEntity<TodoListResponseDto> getTodos(){
+    public ResponseEntity<BaseResponseDto> getTodos(){
 
         return new ResponseEntity<>(
-                new TodoListResponseDto(
+                new BaseResponseDto(
                         HttpStatus.OK.value(),
                         "data successfully received",
                         todoService.getTodos()), HttpStatus.OK);
+    }
+
+    //READ ONE
+    @GetMapping("/{id}")
+    public ResponseEntity<BaseResponseDto> getTodo(@PathVariable Long id){
+
+        return new ResponseEntity<>(
+                new BaseResponseDto(
+                        HttpStatus.OK.value(),
+                        "data successfully received",
+                        todoService.getTodo(id)), HttpStatus.OK);
     }
 
     //CREATE

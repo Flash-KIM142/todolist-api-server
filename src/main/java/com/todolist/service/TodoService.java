@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,12 +21,12 @@ public class TodoService {
     private final TodoRepository todoRepository;
 
     //CREATE
-    public TodoEntity createTodo(TodoRequestDto todoRequestDto){
+    public Long createTodo(TodoRequestDto todoRequestDto){
 
-        return todoRepository.save(todoRequestDto.toEntity());
+        return todoRepository.save(todoRequestDto.toEntity()).getId();
     }
 
-    //READ
+    //READ ALL
     public List<TodoResponseDto> getTodos(){
 
         List<TodoEntity> entityList = todoRepository.findAll();
@@ -36,6 +37,18 @@ public class TodoService {
         }
 
         return dtoList;
+    }
+
+    //READ ONE
+    public TodoResponseDto getTodo(Long id){
+
+        Optional<TodoEntity> findTodo = todoRepository.findById(id);
+
+        if(!findTodo.isPresent()){
+            throw new TodoNotFoundException(id);
+        }
+
+        return TodoResponseDto.of(findTodo.get());
     }
 
     //UPDATE
