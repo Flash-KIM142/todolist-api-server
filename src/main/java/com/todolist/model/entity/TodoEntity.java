@@ -19,6 +19,10 @@ public class TodoEntity extends BaseTimeEntity {
     private String content;
     private Boolean isDone;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
     @Builder
     public TodoEntity(String content, Boolean isDone){
         this.content = content;
