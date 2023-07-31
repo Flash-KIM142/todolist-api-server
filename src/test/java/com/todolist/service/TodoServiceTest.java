@@ -1,17 +1,21 @@
 package com.todolist.service;
 
 import com.todolist.model.entity.TodoEntity;
+import com.todolist.model.entity.UserEntity;
 import com.todolist.model.request.TodoRequestDto;
 import com.todolist.model.response.TodoResponseDto;
 import com.todolist.repository.TodoRepository;
+import com.todolist.repository.UserRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
 
@@ -23,42 +27,63 @@ class TodoServiceTest {
 
     @Mock
     private TodoRepository todoRepository;
+    @Mock
+    private UserRepository userRepository;
 
     private static TodoRequestDto todoRequestDto;
     private static TodoRequestDto todoRequestDto1;
     private static List<TodoEntity> list;
+    private static UserEntity user;
 
     @BeforeAll
     static void beforeEach() {
-        todoRequestDto = new TodoRequestDto();
-        todoRequestDto.setContent("TodoService Test");
-        todoRequestDto.setIsDone(true);
+        todoRequestDto = TodoRequestDto.builder()
+                .content("TodoService Test")
+                .isDone(true)
+                .build();
 
-        todoRequestDto1 = new TodoRequestDto();
-        todoRequestDto1.setContent("TodoService Test1");
-        todoRequestDto1.setIsDone(true);
+        todoRequestDto1 = TodoRequestDto.builder()
+                .content("TodoService Test1")
+                .isDone(true)
+                .build();
 
         list = new ArrayList<>();
+
+        user = UserEntity.builder()
+                .id(2L)
+                .email("email@gmail.com")
+                .username("gary")
+                .password("password")
+                .build();
     }
 
     @Test
-    @DisplayName("Todo 생성 & 저장")
-    void testCreateTodo() {
+    @DisplayName("Todo 생성 & 저장 with user_id")
+    void testCreateTodoWithUser() {
 
         //given
-        TodoEntity todoEntity = todoRequestDto.toEntity();
-        given(todoRepository.save(any(TodoEntity.class))).willReturn(todoEntity);
+        Long userId = 2L;
+        given(userRepository.findById(userId)).willReturn(Optional.of(user));
+        given(todoRepository.save(any(TodoEntity.class))).willReturn(TodoEntity.builder()
+                .id(1L)
+                .content("TodoService Test")
+                .isDone(true)
+                .user(user)
+                .build());
 
         //when
-        Long createId = todoService.createTodo(todoRequestDto);
+        Long createTodoId = todoService.createTodoWithUser(todoRequestDto, userId);
 
         //then
-        assertThat(createId).isEqualTo(todoEntity.getId());
+        assertThat(createTodoId).isEqualTo(1L);
+        verify(userRepository).findById(userId);
+        verify(todoRepository).save(any(TodoEntity.class));
+
     }
 
     @Test
     @DisplayName("Todo list 불러오기")
-    void testGetTodos(){
+    void testGetTodos() {
 
         //given
         list.add(todoRequestDto.toEntity());
@@ -89,4 +114,5 @@ class TodoServiceTest {
         assertThat(findTodoDto.getContent()).isEqualTo("TodoService Test");
         assertThat(findTodoDto.getIsDone()).isEqualTo(true);
     }
+
 }
