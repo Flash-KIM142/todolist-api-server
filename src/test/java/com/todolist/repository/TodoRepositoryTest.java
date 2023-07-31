@@ -1,46 +1,67 @@
 package com.todolist.repository;
 
 import com.todolist.model.entity.TodoEntity;
+import com.todolist.model.entity.UserEntity;
+import com.todolist.model.request.TodoRequestDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import java.util.Optional;
+
+import java.util.ArrayList;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 class TodoRepositoryTest {
 
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    @Test
-    @DisplayName("Todo 저장")
-    void testSave() {
+    private static TodoRequestDto todoRequestDto;
+    private static TodoEntity todo;
+    private static UserEntity user;
 
-        //given
-        TodoEntity todoEntity = new TodoEntity("save Test", true);
+    @BeforeEach
+    void setUp() {
+        user = UserEntity.builder()
+                .email("abc@gmail.com")
+                .username("gary")
+                .password("1234")
+                .build();
 
-        //when
-        TodoEntity saveTodoEntity = todoRepository.save(todoEntity);
+        userRepository.save(user);
 
-        //then
-        assertThat(saveTodoEntity).isEqualTo(todoEntity);
+        todoRequestDto = TodoRequestDto.builder()
+                .content("content")
+                .isDone(true)
+                .build();
+
     }
 
     @Test
-    @DisplayName("Todo 한 개 불러오기")
-    void testFindById() {
+    @DisplayName("Todo 저장 with User")
+    void testSaveWithUser() {
 
         //given
-        TodoEntity todoEntity = todoRepository.save(new TodoEntity(1L, "findById Test", false));
+        todo = TodoEntity.builder()
+                .content(todoRequestDto.getContent())
+                .isDone(todoRequestDto.getIsDone())
+                .user(user)
+                .build();
 
         //when
-        Optional<TodoEntity> findTodoEntity = todoRepository.findById(1L);
+        TodoEntity savedTodo = todoRepository.save(todo);
 
         //then
-        assertTrue(findTodoEntity.isPresent());
-        assertThat(findTodoEntity.get()).isEqualTo(todoEntity);
+        assertThat(savedTodo).isEqualTo(todo);
+        assertNotNull(savedTodo.getId());
+        assertThat(savedTodo.getUser()).isEqualTo(user);
+
     }
+
 }

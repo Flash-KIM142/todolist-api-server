@@ -21,7 +21,7 @@ public class TodoController {
 
     //READ
     @GetMapping
-    public ResponseEntity<BaseResponseDto> getTodos(){
+    public ResponseEntity<BaseResponseDto> getTodos() {
 
         return new ResponseEntity<>(
                 new BaseResponseDto(
@@ -32,7 +32,7 @@ public class TodoController {
 
     //READ ONE
     @GetMapping("/{id}")
-    public ResponseEntity<BaseResponseDto> getTodo(@PathVariable Long id){
+    public ResponseEntity<BaseResponseDto> getTodo(@PathVariable Long id) {
 
         return new ResponseEntity<>(
                 new BaseResponseDto(
@@ -43,7 +43,7 @@ public class TodoController {
 
     //CREATE
     @PostMapping
-    public ResponseEntity<BaseResponseDto> createTodo(@RequestBody TodoRequestDto todoRequestDto){
+    public ResponseEntity<BaseResponseDto> createTodo(@RequestBody TodoRequestDto todoRequestDto) {
 
         return new ResponseEntity<>(
                 new BaseResponseDto(
@@ -56,9 +56,9 @@ public class TodoController {
     @PutMapping("/{id}")
     public ResponseEntity<BaseResponseDto> updateTodoById(
             @PathVariable Long id,
-            @RequestBody TodoUpdateRequestDto todoUpdateRequestDto){
+            @RequestBody TodoUpdateRequestDto todoUpdateRequestDto) {
 
-            return new ResponseEntity<>(
+        return new ResponseEntity<>(
                 new BaseResponseDto(
                         HttpStatus.OK.value(),
                         "data successfully updated",
@@ -67,7 +67,7 @@ public class TodoController {
 
     //DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<BaseResponseDto> deleteTodoById(@PathVariable Long id){
+    public ResponseEntity<BaseResponseDto> deleteTodoById(@PathVariable Long id) {
 
         return new ResponseEntity<>(
                 new BaseResponseDto(

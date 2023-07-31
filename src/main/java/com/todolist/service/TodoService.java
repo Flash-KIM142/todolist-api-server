@@ -1,11 +1,14 @@
 package com.todolist.service;
 
 import com.todolist.exception.TodoNotFoundException;
+import com.todolist.exception.UserNotFoundException;
 import com.todolist.model.entity.TodoEntity;
+import com.todolist.model.entity.UserEntity;
 import com.todolist.model.request.TodoUpdateRequestDto;
 import com.todolist.repository.TodoRepository;
 import com.todolist.model.request.TodoRequestDto;
 import com.todolist.model.response.TodoResponseDto;
+import com.todolist.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,11 +22,25 @@ import java.util.Optional;
 public class TodoService {
 
     private final TodoRepository todoRepository;
+    private final UserRepository userRepository;
 
-    //CREATE
+    /* CREATE */
     public Long createTodo(TodoRequestDto todoRequestDto){
 
         return todoRepository.save(todoRequestDto.toEntity()).getId();
+    }
+
+    public Long createTodoWithUser(TodoRequestDto todoRequestDto, Long userId){
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        TodoEntity todoEntity = TodoEntity.builder()
+                .content(todoRequestDto.getContent())
+                .isDone(todoRequestDto.getIsDone())
+                .user(user)
+                .build();
+
+        return todoRepository.save(todoEntity).getId();
     }
 
     //READ ALL
