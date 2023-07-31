@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="todos")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TodoEntity extends BaseTimeEntity {
@@ -23,14 +24,9 @@ public class TodoEntity extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @Builder
-    public TodoEntity(String content, Boolean isDone){
-        this.content = content;
-        this.isDone = isDone;
-    }
-
     public void update(String content, boolean isDone){
         this.content = content;
         this.isDone = isDone;
     }
+
 }
